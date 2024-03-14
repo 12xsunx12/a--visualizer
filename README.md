@@ -8,6 +8,8 @@
 ---
 ### Project Desc:
 
-A* (A-Star), is a pathfinding algorithem that computes the shortest distance between two points in a world space.
+A* (A-Star), is a pathfinding algorithem that computes the shortest distance between two points in a world space using "manhatten-distance" and "heuristics". 
+
+Here is a youtube video to explain it quickly: https://www.youtube.com/watch?v=71CEj4gKDnE
 
 On a 2-D plane within the Unreal Engine, the goal of this project was to create a graphical representation of the A* algorithem finding that shortest path between two points and you get to watch it do that!

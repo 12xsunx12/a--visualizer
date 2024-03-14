@@ -2,9 +2,9 @@
 
 # cap4601 ~ Project 2
 
-## Authors: Regan O'Donnell and Thomas Alston
+### Authors: Regan O'Donnell and Thomas Alston
 
-## Project Title: A* Visualizer in Unreal Engine
+### Project Title: A* Visualizer in Unreal Engine
 ---
 ### Project Desc:
 

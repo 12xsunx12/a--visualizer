@@ -5,6 +5,8 @@
 ### Authors: Regan O'Donnell and Thomas Alston
 
 ### Project Title: A* Visualizer in Unreal Engine
+
+### Due Date: Apr 15, 2024, 04:00 UTC
 ---
 ### Project Desc:
 

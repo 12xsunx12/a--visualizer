@@ -18,17 +18,17 @@ func _calculate_g() -> float:
 	var a_sqrd = pow(pos.x - Global.start_pos.x, 2)
 	var b_sqrd = pow(pos.y - Global.start_pos.y, 2)
 	var c = sqrt(a_sqrd + b_sqrd)
-	return c
+	return c * 10
 	
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _calculate_h() -> float:
 	var a_sqrd = pow(pos.x - Global.end_pos.x, 2)
 	var b_sqrd = pow(pos.y - Global.end_pos.y, 2)
 	var c = sqrt(a_sqrd + b_sqrd)
-	return c
+	return c * 10
 	
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func calculate() -> void:
 	g = _calculate_g()
 	h = _calculate_h()
-	print(h)
+	f = g + h

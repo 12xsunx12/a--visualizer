@@ -19,7 +19,19 @@ func _ready():
 	astar()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
+func _get_adj_nodes_simple(node: Nod) -> void:
+	var node_pos = node.pos
+	var neighbors: Array = []
+	
+	pri_que.push_front(Nod.new(Vector2i(node_pos.x + 1, node_pos.y), node)) 	# node to right
+	pri_que.push_front(Nod.new(Vector2i(node_pos.x - 1, node_pos.y), node)) 	# node to left
+	pri_que.push_front(Nod.new(Vector2i(node_pos.x, node_pos.y - 1), node)) 	# node to up
+	pri_que.push_front(Nod.new(Vector2i(node_pos.x, node_pos.y + 1), node)) 	# node to down
+
+# // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func astar() -> void:
-	curr_node = pri_que.pop_front()
-	print("Current Node: " + str(curr_node.pos))
-	curr_node.calculate()
+	while pri_que:
+		curr_node = pri_que.pop_front()
+		curr_node.calculate()
+		var curr_node_f = curr_node.f
+		

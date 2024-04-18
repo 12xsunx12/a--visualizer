@@ -18,6 +18,7 @@ var max_evaluations = 500 								# if astar can't find end in 5000 searches, th
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _ready():
 	astar()
+	print_path()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _get_adj_nodes_simple(node: Nod) -> void:
@@ -63,10 +64,17 @@ func astar() -> void:
 			pri_que.clear() # clean the array of left over nodes
 			return
 		elif counter >= max_evaluations:
+			pri_que.clear()
 			print("\n\n~ - ~ Error ~ - ~\n" + "max evals exceeded, could not find end after " + str(max_evaluations) + " searches")
 			break
 		else:
 			curr_node.calculate() # calculate g, h, & f
 			_get_adj_nodes_simple(curr_node) # explore adjacent nodes
 			_place_lowest_f_at_front() # find lowest f node, and place at front of que
+			path.append(pri_que.front()) # append the chosen node
 			counter += 1
+			
+# // - - - - - - - - - - - - - - - - - - - - - - - - -
+func print_path():
+	for node in path:
+		print(str(node.pos))

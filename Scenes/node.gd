@@ -16,13 +16,19 @@ func _init(pos: Vector2i, parent: Nod):
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _calculate_g() -> float:
 	var a_sqrd = pow(pos.x - Global.start_pos.x, 2)
-	print("a: " + str(a_sqrd))
 	var b_sqrd = pow(pos.y - Global.start_pos.y, 2)
-	print("b : " + str(b_sqrd))
+	var c = sqrt(a_sqrd + b_sqrd)
+	return c
+	
+# // - - - - - - - - - - - - - - - - - - - - - - - - - 
+func _calculate_h() -> float:
+	var a_sqrd = pow(pos.x - Global.end_pos.x, 2)
+	var b_sqrd = pow(pos.y - Global.end_pos.y, 2)
 	var c = sqrt(a_sqrd + b_sqrd)
 	return c
 	
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func calculate() -> void:
 	g = _calculate_g()
-	print(g)
+	h = _calculate_h()
+	print(h)

@@ -19,6 +19,7 @@ var max_evaluations = 500 								# if astar can't find end in 5000 searches, th
 func _ready():
 	astar()
 	print_path()
+	_draw()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _get_adj_nodes(node: Nod) -> void:
@@ -72,6 +73,17 @@ func _place_lowest_f_at_front() -> void:
 	var index = _return_lowest_f_in_que()
 	var node: Nod = pri_que.pop_at(index)
 	pri_que.push_front(node)
+
+# // - - - - - - - - - - - - - - - - - - - - - - - - -
+# Draw the path with yellow squares
+func _draw_path():
+	for node in path:
+		draw_rect(Rect2(node.pos * Global.cell_size, Global.cell_size), Color.YELLOW)
+	queue_redraw()
+
+# // - - - - - - - - - - - - - - - - - - - - - - - - -
+func _draw():
+	_draw_path()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func astar() -> void:

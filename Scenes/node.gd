@@ -15,21 +15,35 @@ func _init(pos: Vector2i, parent: Nod):
 	calculate()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
-func _calculate_g() -> float:
+func _calculate_g_ecludian() -> float:
 	var a_sqrd = pow(pos.x - Global.start_pos.x, 2)
 	var b_sqrd = pow(pos.y - Global.start_pos.y, 2)
 	var c = sqrt(a_sqrd + b_sqrd)
 	return c * 10
 	
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
-func _calculate_h() -> float:
+func _calculate_h_ecludian() -> float:
 	var a_sqrd = pow(pos.x - Global.end_pos.x, 2)
 	var b_sqrd = pow(pos.y - Global.end_pos.y, 2)
 	var c = sqrt(a_sqrd + b_sqrd)
 	return c * 10
-	
+
+# // - - - - - - - - - - - - - - - - - - - - - - - - - 
+func _calculate_g_manhat() -> float:
+	var a = Global.end_pos.x - pos.x
+	var b = Global.end_pos.y - pos.y
+	var c = a + b
+	return c
+
+# // - - - - - - - - - - - - - - - - - - - - - - - - - 
+func _calculate_h_manhat() -> float:
+	var a = pos.x - Global.start_pos.x
+	var b = pos.y - Global.start_pos.y
+	var c = a + b
+	return c
+
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func calculate() -> void:
-	g = _calculate_g()
-	h = _calculate_h()
+	g = _calculate_g_manhat()
+	h = _calculate_h_ecludian()
 	f = g + h

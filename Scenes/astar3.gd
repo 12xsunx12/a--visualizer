@@ -23,7 +23,7 @@ func _ready():
 func _get_adj_nodes_simple(node: Nod) -> void:
 	var node_pos = node.pos	
 	var node_right = Nod.new(Vector2i(node_pos.x + 1, node_pos.y), node); node_right.calculate();
-	var node_left = Nod.new(Vector2i(node_pos.x - 1, node_pos.y), node); # node_left.calculate();
+	var node_left = Nod.new(Vector2i(node_pos.x - 1, node_pos.y), node); node_left.calculate();
 	var node_up = Nod.new(Vector2i(node_pos.x, node_pos.y - 1), node); node_up.calculate();
 	var node_down = Nod.new(Vector2i(node_pos.x, node_pos.y + 1), node); node_down.calculate();
 	pri_que.push_front(node_down)

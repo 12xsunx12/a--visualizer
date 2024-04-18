@@ -27,6 +27,22 @@ func _get_adj_nodes_simple(node: Nod) -> void:
 	pri_que.push_front(Nod.new(Vector2i(node_pos.x - 1, node_pos.y), node)) 	# node to left
 	pri_que.push_front(Nod.new(Vector2i(node_pos.x, node_pos.y - 1), node)) 	# node to up
 	pri_que.push_front(Nod.new(Vector2i(node_pos.x, node_pos.y + 1), node)) 	# node to down
+	
+# // - - - - - - - - - - - - - - - - - - - - - - - - - 
+func _return_lowest_f_in_que() -> int:
+	if !pri_que.is_empty():
+		var lowest_f = pri_que[0].f
+		var index = 0
+		var i = 0
+		for node in pri_que:
+			i += 1
+			if node.f < lowest_f:
+				lowest_f = node.f
+				index = i
+		return index
+	else:
+		print("~ - ~ Error ~ - ~\n_return_lowest_f_in_que: que is empty / null")
+		return 0
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func astar() -> void:

@@ -40,10 +40,10 @@ func _create_grid() -> void:
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _draw_grid():
 	for rows in Global.grid.size.x + 1:
-		draw_line(Vector2(rows * cell_size.x, 0), Vector2(rows * cell_size.x, grid_size.y * cell_size.y), Color.SLATE_BLUE, 1)
+		draw_line(Vector2(rows * cell_size.x, 0), Vector2(rows * cell_size.x, grid_size.y * cell_size.y), Color.BISQUE, 1)
 
 	for columns in Global.grid.size.y + 1:
-		draw_line(Vector2(0, columns * cell_size.y), Vector2(grid_size.x * cell_size.x, columns * cell_size.y), Color.SLATE_BLUE, 1)
+		draw_line(Vector2(0, columns * cell_size.y), Vector2(grid_size.x * cell_size.x, columns * cell_size.y), Color.BISQUE, 1)
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func _draw_start_node():

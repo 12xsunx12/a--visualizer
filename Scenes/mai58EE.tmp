@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://fc3xllq84ra7"]
+
+[ext_resource type="Script" path="res://Scenes/Grid.gd" id="1_3wxb3"]
+[ext_resource type="Script" path="res://Scenes/Astar.gd" id="2_wc8gh"]
+
+[node name="Main" type="Node2D"]
+position = Vector2(8, 0)
+
+[node name="Grid" type="Node2D" parent="."]
+script = ExtResource("1_3wxb3")
+cell_size = Vector2i(28, 28)
+
+[node name="Astar" type="Node2D" parent="."]
+script = ExtResource("2_wc8gh")
+
+[node name="Timer" type="Timer" parent="Astar"]

@@ -10,7 +10,7 @@
 ---
 ### Project Desc:
 
-A* (A-Star), is a pathfinding algorithem that computes the shortest distance between two points in a world space using "manhatten-distance" and "heuristics". 
+A* (A-Star), is a pathfinding algorithem that computes the shortest distance between two points in a world space using the "manhatten-distance" heuristic. 
 
 Here is a youtube video to explain it quickly: https://www.youtube.com/watch?v=71CEj4gKDnE
 

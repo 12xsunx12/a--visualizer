@@ -20,13 +20,15 @@ func _ready():
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _get_adj_nodes_simple(node: Nod) -> void:
-	var node_pos = node.pos
-	var neighbors: Array = []
-	
-	pri_que.push_front(Nod.new(Vector2i(node_pos.x + 1, node_pos.y), node)) 	# node to right
-	pri_que.push_front(Nod.new(Vector2i(node_pos.x - 1, node_pos.y), node)) 	# node to left
-	pri_que.push_front(Nod.new(Vector2i(node_pos.x, node_pos.y - 1), node)) 	# node to up
-	pri_que.push_front(Nod.new(Vector2i(node_pos.x, node_pos.y + 1), node)) 	# node to down
+	var node_pos = node.pos	
+	var node_right = Nod.new(Vector2i(node_pos.x + 1, node_pos.y), node); node_right.calculate();
+	var node_left = Nod.new(Vector2i(node_pos.x - 1, node_pos.y), node); node_left.calculate();
+	var node_up = Nod.new(Vector2i(node_pos.x, node_pos.y - 1), node); node_up.calculate();
+	var node_down = Nod.new(Vector2i(node_pos.x, node_pos.y + 1), node); node_down.calculate();
+	pri_que.push_front(node_down)
+	pri_que.push_front(node_up)
+	pri_que.push_front(node_left)
+	pri_que.push_front(node_right)
 	
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _return_lowest_f_in_que() -> int:
@@ -36,6 +38,7 @@ func _return_lowest_f_in_que() -> int:
 		var i = 0
 		for node in pri_que:
 			i += 1
+			print("Node Pos: \t" + str(node.pos) + " \t Node f: " + str(node.f))
 			if node.f < lowest_f:
 				lowest_f = node.f
 				index = i
@@ -45,15 +48,21 @@ func _return_lowest_f_in_que() -> int:
 		return 0
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
+func _place_lowest_f_at_front() -> void:
+	var index = _return_lowest_f_in_que()
+	var node: Nod = pri_que.pop_at(index)
+	pri_que.push_front(node)
+
+# // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func astar() -> void:
-	while pri_que:
-		curr_node = pri_que.pop_front()
-		curr_node.calculate()
-		_get_adj_nodes_simple(curr_node)
-		print("Current Node: \t" + str(curr_node.pos))
-		print("Que:")
-		for node in pri_que:
-			print(str(node.pos))
-		print("Lowest F Index: \t" + str(_return_lowest_f_in_que()))
-		print("Lowest F Pos: \t" + str(pri_que[_return_lowest_f_in_que()].pos))
-		break
+	while pri_que: # for every node in the que
+		curr_node = pri_que.pop_front() # obtain first node in que and remove
+		
+		if curr_node.pos == end_node.pos: # if obtained node is the end node, return
+			pri_que.clear() # clean the array of left over nodes
+			return
+		else:
+			curr_node.calculate() # calculate g, h, & f
+			_get_adj_nodes_simple(curr_node) # explore adjacent nodes
+			_place_lowest_f_at_front() # find lowest f node, and place at front of que
+			print(pri_que[0].pos)

@@ -22,5 +22,4 @@ func _ready():
 func astar() -> void:
 	curr_node = pri_que.pop_front()
 	print("Current Node: " + str(curr_node.pos))
-	
-	
+	curr_node.calculate()

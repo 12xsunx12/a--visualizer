@@ -30,15 +30,15 @@ func _calculate_h_ecludian() -> float:
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _calculate_g_manhat() -> float:
-	var a = Global.end_pos.x - pos.x
-	var b = Global.end_pos.y - pos.y
+	var a = Global.start_pos.x - pos.x
+	var b = Global.start_pos.y - pos.y
 	var c = a + b
 	return c
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _calculate_h_manhat() -> float:
-	var a = pos.x - Global.start_pos.x
-	var b = pos.y - Global.start_pos.y
+	var a = pos.x - Global.end_pos.x
+	var b = pos.y - Global.end_pos.y
 	var c = a + b
 	return c
 

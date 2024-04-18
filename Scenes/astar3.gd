@@ -13,7 +13,7 @@ var end_node: Nod = Nod.new(Global.end_pos, null) 		# the goal node
 var curr_node: Nod = null 								# popped node being evald
 var pri_que: Array 						# the priority que
 var path: Array = [] 									# the constructed shortest path
-var max_evaluations = 500 								# if astar can't find end in 5000 searches, throw error
+var max_evaluations = 10000 							# if astar can't find end in 5000 searches, throw error
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _process(delta):
@@ -46,6 +46,18 @@ func _get_adj_nodes(node: Nod) -> void:
 			left_exist = true
 		if node_right.pos == vis_node.pos:
 			right_exist = true
+
+	# see if nodes are a wall
+	for x in Global.grid.size.x:
+		for y in Global.grid.size.y:
+			if Global.grid.is_point_solid(Vector2i(x, y)) && node_right.pos == Vector2i(x, y):
+				right_exist = true
+			if Global.grid.is_point_solid(Vector2i(x, y)) && node_left.pos == Vector2i(x, y):
+				left_exist = true
+			if Global.grid.is_point_solid(Vector2i(x, y)) && node_down.pos == Vector2i(x, y):
+				down_exist = true
+			if Global.grid.is_point_solid(Vector2i(x, y)) && node_up.pos == Vector2i(x, y):
+				up_exist = true
 
 	# add nodes to que
 	if !down_exist:
@@ -108,7 +120,7 @@ func astar() -> void:
 			_get_adj_nodes(curr_node) # explore adjacent nodes
 			_place_lowest_f_at_front() # find lowest f node, and place at front of que
 			path.append(pri_que.front()) # append the chosen node
-			# debug_print_f()
+			debug_print_f()
 			counter += 1
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - -

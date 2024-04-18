@@ -1,7 +1,7 @@
 extends Node2D
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
-var grid = AStarGrid2D.new() # the grid object itself
+ # the grid object itself
 var grid_size: Vector2i
 var cell_size = Global.cell_size
 var mouse_pressed = false
@@ -21,8 +21,8 @@ func _ready():
 func _process(delta):
 	if mouse_pressed:
 		var pos = Vector2i(get_global_mouse_position()) / cell_size
-		if grid.is_in_boundsv(pos):
-			grid.set_point_solid(pos, true)
+		if Global.grid.is_in_boundsv(pos):
+			Global.grid.set_point_solid(pos, true)
 		queue_redraw()
 
 
@@ -32,17 +32,17 @@ func _process(delta):
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _create_grid() -> void:
 	grid_size = Vector2i(get_viewport_rect().size) / cell_size
-	grid.size = grid_size
-	grid.cell_size = cell_size
-	grid.offset = cell_size / 2
-	grid.update()
+	Global.grid.size = grid_size
+	Global.grid.cell_size = cell_size
+	Global.grid.offset = cell_size / 2
+	Global.grid.update()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _draw_grid():
-	for rows in grid.size.x + 1:
+	for rows in Global.grid.size.x + 1:
 		draw_line(Vector2(rows * cell_size.x, 0), Vector2(rows * cell_size.x, grid_size.y * cell_size.y), Color.SLATE_BLUE, 1)
 
-	for columns in grid.size.y + 1:
+	for columns in Global.grid.size.y + 1:
 		draw_line(Vector2(0, columns * cell_size.y), Vector2(grid_size.x * cell_size.x, columns * cell_size.y), Color.SLATE_BLUE, 1)
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -85,13 +85,14 @@ func _input(event):
 func _clear_walls():
 	for x in range(grid_size.x):
 		for y in range(grid_size.y):
-			grid.set_point_solid(Vector2i(x, y), false)
+			Global.grid.set_point_solid(Vector2i(x, y), false)
 	queue_redraw()
 	print("Walls cleared!")
 
+# // - - - - - - - - - - - - - - - - - - - - - - - - -
 func _fill_walls():
 	for x in grid_size.x:
 		for y in grid_size.y:
-			if grid.is_point_solid(Vector2i(x, y)):
+			if Global.grid.is_point_solid(Vector2i(x, y)):
 				draw_rect(Rect2(x * cell_size.x, y * cell_size.y, cell_size.x, cell_size.y), Color.DARK_GRAY)
 	queue_redraw()

@@ -21,17 +21,36 @@ func _ready():
 	print_path()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
-func _get_adj_nodes_simple(node: Nod) -> void:
+func _get_adj_nodes(node: Nod) -> void:
 	var node_pos = node.pos	
-	var node_right = Nod.new(Vector2i(node_pos.x + 1, node_pos.y), node); node_right.calculate();
-	var node_left = Nod.new(Vector2i(node_pos.x - 1, node_pos.y), node); node_left.calculate();
-	var node_up = Nod.new(Vector2i(node_pos.x, node_pos.y - 1), node); node_up.calculate();
-	var node_down = Nod.new(Vector2i(node_pos.x, node_pos.y + 1), node); node_down.calculate();
-	pri_que.push_front(node_down)
-	pri_que.push_front(node_up)
-	pri_que.push_front(node_left)
-	pri_que.push_front(node_right)
 	
+	# create nodes
+	var node_right = Nod.new(Vector2i(node_pos.x + 1, node_pos.y), node); var right_exist = false;
+	var node_left = Nod.new(Vector2i(node_pos.x - 1, node_pos.y), node); var left_exist = false;
+	var node_up = Nod.new(Vector2i(node_pos.x, node_pos.y - 1), node); var up_exist = false;
+	var node_down = Nod.new(Vector2i(node_pos.x, node_pos.y + 1), node); var down_exist = false;
+	
+	# see if nodes have already been visited
+	for vis_node in path:
+		if node_down.pos == vis_node.pos:
+			down_exist = true
+		if node_up.pos == vis_node.pos:
+			up_exist = true
+		if node_left.pos == vis_node.pos:
+			left_exist = true
+		if node_right.pos == vis_node.pos:
+			right_exist = true
+
+	# add nodes to que
+	if !down_exist:
+		pri_que.push_front(node_down)
+	if !up_exist:
+		pri_que.push_front(node_up)
+	if !left_exist:
+		pri_que.push_front(node_left)
+	if !right_exist:
+		pri_que.push_front(node_right)
+
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _return_lowest_f_in_que() -> int:
 	if !pri_que.is_empty():
@@ -39,10 +58,10 @@ func _return_lowest_f_in_que() -> int:
 		var index = 0
 		var i = 0
 		for node in pri_que:
-			i += 1
 			if node.f < lowest_f:
 				lowest_f = node.f
 				index = i
+			i += 1
 		return index
 	else:
 		print("\n\n~ - ~ Error ~ - ~\n_return_lowest_f_in_que: que is empty / null")
@@ -57,6 +76,7 @@ func _place_lowest_f_at_front() -> void:
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func astar() -> void:
 	var counter = 0
+	path.push_front(start_node)
 	while pri_que: # for every node in the que
 		curr_node = pri_que.pop_front() # obtain first node in que and remove
 		
@@ -69,12 +89,20 @@ func astar() -> void:
 			break
 		else:
 			curr_node.calculate() # calculate g, h, & f
-			_get_adj_nodes_simple(curr_node) # explore adjacent nodes
+			_get_adj_nodes(curr_node) # explore adjacent nodes
 			_place_lowest_f_at_front() # find lowest f node, and place at front of que
 			path.append(pri_que.front()) # append the chosen node
+			# debug_print_f()
 			counter += 1
 			
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func print_path():
 	for node in path:
 		print(str(node.pos))
+
+# // - - - - - - - - - - - - - - - - - - - - - - - - -
+func debug_print_f():
+	for node in pri_que:
+		print("Node Pos: \t" + str(node.pos) + " \t Node f: \t" + str(node.f))
+	print(pri_que[_return_lowest_f_in_que()].pos)
+	print("\n")

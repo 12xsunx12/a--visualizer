@@ -12,6 +12,7 @@ func _init(pos: Vector2i, parent: Nod):
 	self.g = 0
 	self.h = 0
 	self.f = 0
+	calculate()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _calculate_g() -> float:

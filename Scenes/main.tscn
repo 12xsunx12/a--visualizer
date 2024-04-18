@@ -1,13 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://fc3xllq84ra7"]
 
-[ext_resource type="Script" path="res://Scenes/Grid.gd" id="1_3wxb3"]
+[ext_resource type="Script" path="res://Scenes/grid3.gd" id="1_gi6l4"]
 [ext_resource type="Script" path="res://Scenes/astar3.gd" id="2_euqek"]
 
 [node name="Main" type="Node2D"]
 position = Vector2(8, 0)
 
 [node name="Grid" type="Node2D" parent="."]
-script = ExtResource("1_3wxb3")
+script = ExtResource("1_gi6l4")
 
 [node name="Astar" type="Node2D" parent="."]
 script = ExtResource("2_euqek")

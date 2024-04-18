@@ -11,15 +11,20 @@ extends Node2D
 var start_node: Nod = Nod.new(Global.start_pos, null) 	# node where A* begins
 var end_node: Nod = Nod.new(Global.end_pos, null) 		# the goal node
 var curr_node: Nod = null 								# popped node being evald
-var pri_que: Array = [start_node] 						# the priority que
+var pri_que: Array 						# the priority que
 var path: Array = [] 									# the constructed shortest path
 var max_evaluations = 500 								# if astar can't find end in 5000 searches, throw error
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
-func _ready():
-	astar()
-	print_path()
-	_draw()
+func _process(delta):
+	if Input.is_action_just_pressed("press_e"):
+		pri_que.clear()
+		path.clear()
+		start_node.pos = Global.start_pos 		# node where A* begins
+		end_node.pos = Global.end_pos 			# the goal node
+		pri_que = [start_node]
+		astar()
+		_draw()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _get_adj_nodes(node: Nod) -> void:
@@ -75,7 +80,6 @@ func _place_lowest_f_at_front() -> void:
 	pri_que.push_front(node)
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
-# Draw the path with yellow squares
 func _draw_path():
 	for node in path:
 		draw_rect(Rect2(node.pos * Global.cell_size, Global.cell_size), Color.YELLOW)
@@ -106,7 +110,7 @@ func astar() -> void:
 			path.append(pri_que.front()) # append the chosen node
 			# debug_print_f()
 			counter += 1
-			
+
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func print_path():
 	for node in path:

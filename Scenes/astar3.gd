@@ -49,5 +49,11 @@ func astar() -> void:
 	while pri_que:
 		curr_node = pri_que.pop_front()
 		curr_node.calculate()
-		var curr_node_f = curr_node.f
-		
+		_get_adj_nodes_simple(curr_node)
+		print("Current Node: \t" + str(curr_node.pos))
+		print("Que:")
+		for node in pri_que:
+			print(str(node.pos))
+		print("Lowest F Index: \t" + str(_return_lowest_f_in_que()))
+		print("Lowest F Pos: \t" + str(pri_que[_return_lowest_f_in_que()].pos))
+		break

@@ -51,16 +51,14 @@ func _get_adj_nodes(node: Nod) -> void:
 		right_exist = true
 
 	# see if nodes are a wall
-	for x in Global.grid.size.x:
-		for y in Global.grid.size.y:
-			if Global.grid.is_point_solid(Vector2i(x, y)) && node_right.pos == Vector2i(x, y):
-				right_exist = true
-			if Global.grid.is_point_solid(Vector2i(x, y)) && node_left.pos == Vector2i(x, y):
-				left_exist = true
-			if Global.grid.is_point_solid(Vector2i(x, y)) && node_down.pos == Vector2i(x, y):
-				down_exist = true
-			if Global.grid.is_point_solid(Vector2i(x, y)) && node_up.pos == Vector2i(x, y):
-				up_exist = true
+	if Global.grid.is_point_solid(node_right.pos):
+		right_exist = true
+	if Global.grid.is_point_solid(node_left.pos):
+		left_exist = true
+	if Global.grid.is_point_solid(node_down.pos):
+		down_exist = true
+	if Global.grid.is_point_solid(node_up.pos):
+		up_exist = true
 
 	# add nodes to que
 	if !down_exist:

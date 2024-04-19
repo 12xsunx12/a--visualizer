@@ -25,7 +25,7 @@ func _process(delta):
 		start_node.pos = Global.start_pos 		# node where A* begins
 		end_node.pos = Global.end_pos 			# the goal node
 		pri_que = [start_node]
-		path[start_node] = start_node.pos
+		path[start_node.pos] = start_node
 		timer.start(Global.time)
 		astar()
 	_draw()
@@ -41,15 +41,14 @@ func _get_adj_nodes(node: Nod) -> void:
 	var node_down = Nod.new(Vector2i(node_pos.x, node_pos.y + 1), node); var down_exist = false;
 	
 	# see if nodes have already been visited
-	for vis_node in path:
-		if node_down.pos == vis_node.pos:
-			down_exist = true
-		if node_up.pos == vis_node.pos:
-			up_exist = true
-		if node_left.pos == vis_node.pos:
-			left_exist = true
-		if node_right.pos == vis_node.pos:
-			right_exist = true
+	if path.has(node_down.pos):
+		down_exist = true
+	if path.has(node_up.pos):
+		up_exist = true
+	if path.has(node_left.pos):
+		left_exist = true
+	if path.has(node_right.pos):
+		right_exist = true
 
 	# see if nodes are a wall
 	for x in Global.grid.size.x:
@@ -104,7 +103,7 @@ func _draw_que():
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func _draw_path():
 	for key in path:
-		draw_rect(Rect2(path[key] * Global.cell_size, Global.cell_size), Color.BLUE_VIOLET)
+		draw_rect(Rect2(path[key].pos * Global.cell_size, Global.cell_size), Color.BLUE_VIOLET)
 	queue_redraw()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -127,7 +126,7 @@ func astar() -> void:
 	curr_node.calculate() # calculate g, h, & f
 	_get_adj_nodes(curr_node) # explore adjacent nodes
 	_place_lowest_f_at_front() # find lowest f node, and place at front of que
-	path[pri_que.front()] = pri_que.front().pos
+	path[pri_que.front().pos] = pri_que.front()
 	# debug_print_f()
 	counter += 1
 

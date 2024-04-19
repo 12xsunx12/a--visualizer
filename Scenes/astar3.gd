@@ -12,7 +12,7 @@ var start_node: Nod = Nod.new(Global.start_pos, null) 	# node where A* begins
 var end_node: Nod = Nod.new(Global.end_pos, null) 		# the goal node
 var curr_node: Nod = start_node 						# popped node being evald
 var pri_que: Array 										# the priority que
-var path: Array = [] 									# the constructed shortest path
+var path: Dictionary = {} 									# the constructed shortest path
 var max_evaluations = 15000 							# if astar can't find end in 5000 searches, throw error
 @export var timer: Timer
 var counter: int = 0
@@ -25,7 +25,7 @@ func _process(delta):
 		start_node.pos = Global.start_pos 		# node where A* begins
 		end_node.pos = Global.end_pos 			# the goal node
 		pri_que = [start_node]
-		path.push_front(start_node)
+		path[start_node] = start_node.pos
 		timer.start(Global.time)
 		astar()
 	_draw()
@@ -103,8 +103,8 @@ func _draw_que():
 	
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func _draw_path():
-	for node in path:
-		draw_rect(Rect2(node.pos * Global.cell_size, Global.cell_size), Color.PINK)
+	for key in path:
+		draw_rect(Rect2(path[key] * Global.cell_size, Global.cell_size), Color.BLUE_VIOLET)
 	queue_redraw()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -127,7 +127,7 @@ func astar() -> void:
 	curr_node.calculate() # calculate g, h, & f
 	_get_adj_nodes(curr_node) # explore adjacent nodes
 	_place_lowest_f_at_front() # find lowest f node, and place at front of que
-	path.append(pri_que.front()) # append the chosen node
+	path[pri_que.front()] = pri_que.front().pos
 	# debug_print_f()
 	counter += 1
 

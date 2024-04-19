@@ -19,7 +19,7 @@ var counter: int = 0
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _process(delta):
-	if Input.is_action_just_pressed("press_e"):
+	if Input.is_action_just_pressed("press_a"):
 		pri_que.clear()
 		path.clear()
 		start_node.pos = Global.start_pos 		# node where A* begins
@@ -73,15 +73,16 @@ func _get_adj_nodes(node: Nod) -> void:
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _return_lowest_f_in_que() -> int:
 	if !pri_que.is_empty():
+		var lowest_f_index = 0
 		var lowest_f = pri_que[0].f
-		var index = 0
-		var i = 0
-		for node in pri_que:
-			if node.f < lowest_f:
-				lowest_f = node.f
-				index = i
-			i += 1
-		return index
+		
+		# Find the index of the element with the lowest f value
+		for i in range(1, pri_que.size()):
+			if pri_que[i].f < lowest_f:
+				lowest_f = pri_que[i].f
+				lowest_f_index = i
+		
+		return lowest_f_index
 	else:
 		print("\n\n~ - ~ Error ~ - ~\n_return_lowest_f_in_que: que is empty / null")
 		return 0

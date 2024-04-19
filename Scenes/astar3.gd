@@ -14,6 +14,7 @@ var curr_node: Nod = start_node 						# popped node being evald
 var pri_que: priQ = priQ.new()				# the priority que
 var path: Dictionary = {} 								# the constructed shortest path
 var max_evaluations = 15000 							# if astar can't find end in 5000 searches, throw error
+var max_que_size = 50
 @export var timer: Timer
 var counter: int = 0
 
@@ -79,7 +80,7 @@ func _draw_que():
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func _draw_path():
 	for key in path:
-		draw_rect(Rect2(path[key].pos * Global.cell_size, Global.cell_size), Color.BLUE_VIOLET)
+		draw_rect(Rect2(path[key].pos * Global.cell_size, Global.cell_size), Color.PINK)
 	queue_redraw()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -97,6 +98,10 @@ func astar() -> void:
 	if curr_node.pos == end_node.pos: # if obtained node is the end node, return
 		pri_que.clear() # clean the array of left over nodes
 		return
+	
+	if pri_que.size() > max_que_size:
+		pri_que.clear()
+		pri_que.set_start(curr_node)
 		
 	curr_node = pri_que.dequeue() # obtain first node in que and remove
 	path[curr_node.pos] = curr_node

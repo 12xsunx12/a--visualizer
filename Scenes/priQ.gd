@@ -3,10 +3,6 @@ class_name priQ extends Node2D
 var elements: Array = []
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
-func _init():
-	elements.resize(0)
-
-# // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func enqueue(item):
 	var entry = {"item": item, "priority": item.f}
 	elements.append(entry)
@@ -53,3 +49,12 @@ func clear() -> void:
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func size() -> int:
 	return elements.size()
+
+# // - - - - - - - - - - - - - - - - - - - - - - - - - 
+func get_elements():
+	return elements
+
+# // - - - - - - - - - - - - - - - - - - - - - - - - - 
+func set_start(start_node):
+	enqueue(start_node)
+	

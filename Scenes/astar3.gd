@@ -10,10 +10,12 @@ extends Node2D
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 var start_node: Nod = Nod.new(Global.start_pos, null) 	# node where A* begins
 var end_node: Nod = Nod.new(Global.end_pos, null) 		# the goal node
-var curr_node: Nod = null 								# popped node being evald
-var pri_que: Array 						# the priority que
+var curr_node: Nod = start_node 						# popped node being evald
+var pri_que: Array 										# the priority que
 var path: Array = [] 									# the constructed shortest path
 var max_evaluations = 15000 							# if astar can't find end in 5000 searches, throw error
+@export var timer: Timer
+var counter: int = 0
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _process(delta):
@@ -23,8 +25,10 @@ func _process(delta):
 		start_node.pos = Global.start_pos 		# node where A* begins
 		end_node.pos = Global.end_pos 			# the goal node
 		pri_que = [start_node]
+		path.push_front(start_node)
+		timer.start(Global.time)
 		astar()
-		_draw()
+	_draw()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _get_adj_nodes(node: Nod) -> void:
@@ -92,36 +96,40 @@ func _place_lowest_f_at_front() -> void:
 	pri_que.push_front(node)
 	
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
+func _draw_que():
+	for node in pri_que:
+		draw_rect(Rect2(node.pos * Global.cell_size, Global.cell_size), Color.DARK_TURQUOISE)
+	queue_redraw()
+	
+# // - - - - - - - - - - - - - - - - - - - - - - - - -
 func _draw_path():
 	for node in path:
-		draw_rect(Rect2(node.pos * Global.cell_size, Global.cell_size), Color.DARK_TURQUOISE)
+		draw_rect(Rect2(node.pos * Global.cell_size, Global.cell_size), Color.PINK)
 	queue_redraw()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func _draw():
+	_draw_que()
 	_draw_path()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func astar() -> void:
-	var counter = 0
-	path.push_front(start_node)
-	while pri_que: # for every node in the que
-		curr_node = pri_que.pop_front() # obtain first node in que and remove
+	if counter >= max_evaluations:
+		pri_que.clear()
+		print("\n\n~ - ~ Error ~ - ~\n" + "max evals exceeded, could not find end after " + str(max_evaluations) + " searches")
+		return
 		
-		if curr_node.pos == end_node.pos: # if obtained node is the end node, return
-			pri_que.clear() # clean the array of left over nodes
-			return
-		elif counter >= max_evaluations:
-			pri_que.clear()
-			print("\n\n~ - ~ Error ~ - ~\n" + "max evals exceeded, could not find end after " + str(max_evaluations) + " searches")
-			break
-		else:
-			curr_node.calculate() # calculate g, h, & f
-			_get_adj_nodes(curr_node) # explore adjacent nodes
-			_place_lowest_f_at_front() # find lowest f node, and place at front of que
-			path.append(pri_que.front()) # append the chosen node
-			# debug_print_f()
-			counter += 1
+	if curr_node.pos == end_node.pos: # if obtained node is the end node, return
+		pri_que.clear() # clean the array of left over nodes
+		return
+		
+	curr_node = pri_que.pop_front() # obtain first node in que and remove
+	curr_node.calculate() # calculate g, h, & f
+	_get_adj_nodes(curr_node) # explore adjacent nodes
+	_place_lowest_f_at_front() # find lowest f node, and place at front of que
+	path.append(pri_que.front()) # append the chosen node
+	# debug_print_f()
+	counter += 1
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func print_path():

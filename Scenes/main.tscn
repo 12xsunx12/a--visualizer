@@ -9,5 +9,10 @@ position = Vector2(8, 0)
 [node name="Grid" type="Node2D" parent="."]
 script = ExtResource("1_gi6l4")
 
-[node name="Astar" type="Node2D" parent="."]
+[node name="Astar" type="Node2D" parent="." node_paths=PackedStringArray("timer")]
 script = ExtResource("2_euqek")
+timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="Astar"]
+
+[connection signal="timeout" from="Astar/Timer" to="Astar" method="astar"]

@@ -29,7 +29,7 @@ func _process(delta):
 		pri_que.set_start(start_node)
 		timer.start(Global.time)
 		astar()
-	_draw()
+	queue_redraw()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _get_adj_nodes(node: Nod) -> void:
@@ -75,13 +75,11 @@ func _get_adj_nodes(node: Nod) -> void:
 func _draw_que():
 	for node in pri_que.get_elements():
 		draw_rect(Rect2(node["item"].pos * Global.cell_size, Global.cell_size), Color.DARK_TURQUOISE)
-	queue_redraw()
 	
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func _draw_path():
 	for key in path:
 		draw_rect(Rect2(path[key].pos * Global.cell_size, Global.cell_size), Color.PINK)
-	queue_redraw()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func _draw():

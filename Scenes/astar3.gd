@@ -15,7 +15,7 @@ var pri_que: priQ = priQ.new()							# the priority que
 var path: Dictionary = {} 								# the constructed shortest path
 var final_path: Array = []								# path created when back tracking
 var done = false										# if A* is done computing or not
-var max_evaluations = 15000 							# if astar can't find end in 5000 searches, throw error
+var max_evaluations = 999999 							# if astar can't find end in 5000 searches, throw error
 var max_que_size = 200
 @export var timer: Timer
 var counter: int = 0
@@ -36,6 +36,12 @@ func _process(delta):
 		if !done:
 			astar()
 	queue_redraw()
+	
+	if Input.is_action_just_pressed("press_1"):
+		Global.time = Global.time * 2
+	
+	if Input.is_action_just_pressed("press_2"):
+		Global.time = Global.time / 2
 	
 	if Input.is_action_just_pressed("press_esc"):
 		get_tree().quit()

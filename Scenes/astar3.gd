@@ -11,8 +11,10 @@ extends Node2D
 var start_node: Nod = Nod.new(Global.start_pos, null) 	# node where A* begins
 var end_node: Nod = Nod.new(Global.end_pos, null) 		# the goal node
 var curr_node: Nod = start_node 						# popped node being evald
-var pri_que: priQ = priQ.new()				# the priority que
+var pri_que: priQ = priQ.new()							# the priority que
 var path: Dictionary = {} 								# the constructed shortest path
+var final_path: Array = []								# path created when back tracking
+var done = false										# if A* is done computing or not
 var max_evaluations = 15000 							# if astar can't find end in 5000 searches, throw error
 var max_que_size = 50
 @export var timer: Timer
@@ -21,16 +23,23 @@ var counter: int = 0
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _process(delta):
 	if Input.is_action_just_pressed("press_a"):
+		done = false
+		final_path.clear()
 		pri_que.clear()
 		path.clear()
 		start_node.pos = Global.start_pos 		# node where A* begins
 		end_node.pos = Global.end_pos 			# the goal node
 		path[start_node.pos] = start_node
-		pri_que.set_start(start_node)
+		pri_que.enqueue(start_node)
+		pri_que.enqueue(start_node)
 		timer.start(Global.time)
-		astar()
+		if !done:
+			astar()
 	queue_redraw()
-
+	
+	if Input.is_action_just_pressed("press_esc"):
+		get_tree().quit()
+		
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func _get_adj_nodes(node: Nod) -> void:
 	var node_pos = node.pos	
@@ -70,6 +79,16 @@ func _get_adj_nodes(node: Nod) -> void:
 		pri_que.enqueue(node_left)
 	if !right_exist:
 		pri_que.enqueue(node_right)
+
+# // - - - - - - - - - - - - - - - - - - - - - - - - -
+func _back_track():
+	if curr_node.pos != start_node.pos:
+		curr_node = curr_node.parent
+		final_path.append(curr_node)
+		
+func _draw_back_track():
+	for node in final_path:
+		draw_rect(Rect2(node.pos * Global.cell_size, Global.cell_size), Color.BLACK)
 	
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func _draw_que():
@@ -85,27 +104,30 @@ func _draw_path():
 func _draw():
 	_draw_que()
 	_draw_path()
+	if done:
+		_draw_back_track()
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - - 
 func astar() -> void:
+	if pri_que.size() > max_que_size:
+		pri_que.clear()
+		pri_que.set_start(curr_node)
+	
 	if counter >= max_evaluations:
 		pri_que.clear()
 		print("\n\n~ - ~ Error ~ - ~\n" + "max evals exceeded, could not find end after " + str(max_evaluations) + " searches")
 		return
-		
-	if curr_node.pos == end_node.pos: # if obtained node is the end node, return
+	elif curr_node.pos == end_node.pos or done == true: # if obtained node is the end node, return
+		done = true
 		pri_que.clear() # clean the array of left over nodes
+		_back_track()
 		return
-	
-	if pri_que.size() > max_que_size:
-		pri_que.clear()
-		pri_que.set_start(curr_node)
-		
-	curr_node = pri_que.dequeue() # obtain first node in que and remove
-	path[curr_node.pos] = curr_node
-	_get_adj_nodes(curr_node) # explore adjacent nodes
-	# debug_print_f()
-	counter += 1
+	else:
+		curr_node = pri_que.dequeue() # obtain first node in que and remove
+		path[curr_node.pos] = curr_node
+		_get_adj_nodes(curr_node) # explore adjacent nodes
+		# debug_print_f()
+		counter += 1		
 
 # // - - - - - - - - - - - - - - - - - - - - - - - - -
 func print_path():

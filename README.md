@@ -4,7 +4,7 @@
 
 ### Authors: Regan O'Donnell and Thomas Alston
 
-### Project Title: A* Visualizer in Unreal Engine
+### Project Title: A* Visualizer in Godot Game Engine
 
 ### Due Date: Apr 15, 2024, 04:00 UTC
 ---
@@ -14,4 +14,12 @@ A* (A-Star), is a pathfinding algorithem that computes the shortest distance bet
 
 Here is a youtube video to explain it quickly: https://www.youtube.com/watch?v=71CEj4gKDnE
 
-On a 2-D plane within the Unreal Engine, the goal of this project was to create a graphical representation of the A* algorithem finding that shortest path between two points and you get to watch it do that!
+On a 2-D plane within the Godot Engine, the goal of this project was to create a graphical representation of the A* algorithem finding that shortest path between two points and you get to watch it do that!
+
+### Controls:
+Esc: quit the program\
+Middle Click:  place start node\
+Right Click:   place end node\
+Left Click:    draw walls\
+A:             start A*\
+Enter:         clear all walls

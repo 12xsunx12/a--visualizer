@@ -16,7 +16,7 @@ var path: Dictionary = {} 								# the constructed shortest path
 var final_path: Array = []								# path created when back tracking
 var done = false										# if A* is done computing or not
 var max_evaluations = 15000 							# if astar can't find end in 5000 searches, throw error
-var max_que_size = 50
+var max_que_size = 200
 @export var timer: Timer
 var counter: int = 0
 

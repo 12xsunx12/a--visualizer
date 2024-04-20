@@ -17,9 +17,9 @@ Here is a youtube video to explain it quickly: https://www.youtube.com/watch?v=7
 On a 2-D plane within the Godot Engine, the goal of this project was to create a graphical representation of the A* algorithem finding that shortest path between two points and you get to watch it do that!
 
 ### Controls:
-Esc: quit the program
-Middle Click:  place start node
-Right Click:   place end node
-Left Click:    draw walls
-A:             start A*
-Enter:         clear all walls
+Esc: quit the program\n
+Middle Click:  place start node\n
+Right Click:   place end node\n
+Left Click:    draw walls\n
+A:             start A*\n
+Enter:         clear all walls\n
